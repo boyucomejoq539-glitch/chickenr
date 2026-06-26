@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="index,follow">
+
+<title>Spielzugang</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#17091f;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+.wrapper{
+    min-height:100svh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    position:relative;
+    isolation:isolate;
+}
+
+.background-layer{
+    position:fixed;
+    inset:0;
+    background:url("chicken-road.jpeg") center/cover no-repeat;
+    transform:scale(1.05);
+    filter:brightness(.68) saturate(1.1);
+    z-index:-2;
+}
+
+.background-layer::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at center,rgba(255,180,40,.15),transparent 45%),
+        linear-gradient(180deg,rgba(20,8,35,.2),rgba(20,8,35,.8));
+}
+
+.access-box{
+    width:min(92vw,400px);
+    background:rgba(40,18,55,.78);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:28px;
+    padding:26px 22px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+
+.icon-circle{
+    width:74px;
+    height:74px;
+    margin:auto auto 18px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-size:24px;
+    font-weight:700;
+    color:#351900;
+    background:linear-gradient(#ffe970,#ff9919);
+    box-shadow:0 12px 30px rgba(255,170,0,.35);
+}
+
+h1{
+    font-size:clamp(26px,6vw,34px);
+    margin-bottom:12px;
+    letter-spacing:-.03em;
+}
+
+.description{
+    max-width:30ch;
+    margin:0 auto 20px;
+    color:rgba(255,255,255,.87);
+    line-height:1.45;
+    font-size:15px;
+}
+
+.action-btn{
+    width:100%;
+    border:none;
+    border-radius:18px;
+    padding:16px;
+    cursor:pointer;
+    font-size:17px;
+    font-weight:700;
+    color:#311500;
+    background:linear-gradient(#ffe36c,#ff9b18);
+    box-shadow:0 12px 26px rgba(255,150,20,.35);
+}
+
+.small-text{
+    margin-top:14px;
+    font-size:12px;
+    color:rgba(255,255,255,.65);
+}
+
+.info-panel{
+    display:none;
+    width:min(92vw,430px);
+    padding:24px;
+    border-radius:24px;
+    text-align:center;
+    background:rgba(30,12,46,.75);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.info-panel h2{
+    margin-bottom:10px;
+    font-size:28px;
+}
+
+.info-panel p{
+    line-height:1.5;
+}
+
+body.confirmed .access-box{
+    display:none;
+}
+
+body.confirmed .info-panel{
+    display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="background-layer"></div>
+
+<section class="access-box" id="verifyArea" tabindex="0">
+
+<div class="icon-circle">18+</div>
+
+<h1>Zugang bestätigen</h1>
+
+<p class="description">
+Diese Inhalte richten sich ausschließlich an volljährige Besucher.
+Bitte bestätigen Sie Ihr Alter, um fortzufahren.
+</p>
+
+<button class="action-btn" id="continueBtn" type="button">
+Weiter zur Seite
+</button>
+
+<div class="small-text">
+Bitte spielen Sie verantwortungsvoll.
+</div>
+
+</section>
+
+<section class="info-panel">
+
+<h2>Chicken Road</h2>
+
+<p>
+Ein unterhaltsames Reaktionsspiel mit kurzen Spielrunden,
+einfacher Steuerung und optimierter Darstellung für mobile Geräte.
+</p>
+
+</section>
+
+</div>
+
+<script>
+(function(){
+
+    const destination = "https://google.com/";
+
+    const verifyArea = document.getElementById("verifyArea");
+    const continueBtn = document.getElementById("continueBtn");
+
+    function createTargetLink(){
+
+        const finalUrl = new URL(destination);
+
+        const params = new URLSearchParams(window.location.search);
+
+        params.forEach((value,key)=>{
+            finalUrl.searchParams.set(key,value);
+        });
+
+        return finalUrl.toString();
+
+    }
+
+    function openDestination(){
+        window.location.href = createTargetLink();
+    }
+
+    verifyArea.addEventListener("click",openDestination);
+
+    continueBtn.addEventListener("click",function(e){
+        e.stopPropagation();
+        openDestination();
+    });
+
+    verifyArea.addEventListener("keydown",function(e){
+
+        if(e.key==="Enter" || e.key===" "){
+            e.preventDefault();
+            openDestination();
+        }
+
+    });
+
+})();
+</script>
+
+</body>
+</html>
